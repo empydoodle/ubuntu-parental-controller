@@ -49,22 +49,19 @@ fi
 
 # Check current time in relation to lock/unlock time
 # Assumes the lock time is later in the day than the unlock time
-## See if we need to lock
-if [ $current_ts -ge $lock_ts ] ; then
-  # Check if unlocked
-  if [ $user_status = "unlocked" ] ; then
-    /bin/bash $lib_dir/libdisable_user.sh $target_user
-    /bin/bash $lib_dir/lock_screen.sh $target_user
-    exit 0
-  fi
-## See if we need to unlock
-elif [ $current_ts -ge $unlock_ts ] ; then
-  # Check if locked
+if [ $current_ts -ge $unlock_ts ] && [ $current_ts -lt $lock_ts ]; then
+  # Unlock user if locked
   if [ $user_status = "locked" ] ; then
     /bin/bash $lib_dir/enable_user.sh $target_user
   fi
   # See if we need to notify
   if [ $current_ts -ge $notify_ts ] ; then
     /bin/bash $lib_dir/notify.sh $target_user $lock_ts
+  fi
+else
+  # Lock user if unlocked
+  if [ $user_status = "unlocked" ] ; then
+    /bin/bash $lib_dir/disable_user.sh $target_user
+    /bin/bash $lib_dir/lock_screen.sh $target_user
   fi
 fi
