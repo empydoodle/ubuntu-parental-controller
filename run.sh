@@ -12,7 +12,7 @@ schedule_lock=$(cat $schedule_config | jq -r '.lock')
 
 unlock_ts=$(date --date="$schedule_unlock" +%s)
 lock_ts=$(date --date="$schedule_lock" +%s)
-notify_ts=$(date --date="@$(($lock_ts-300))" +%s)
+notify_ts=$(date --date="@$(($lock_ts-600))" +%s)
 current_ts=$(date +%s)
 
 controls_enabled=$(cat $schedule_config | jq -r '.enabled')
