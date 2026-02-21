@@ -1,5 +1,5 @@
 {
   "enabled": true,
   "unlock": "08:00",
-  "lock": "21:00"
+  "lock": "23:59"
 }
